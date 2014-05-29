@@ -147,7 +147,7 @@ public class VectorsIterator<ValueType> implements Iterator<List<ValueType>> {
 			setLastValueFor(index);
 		}
 		count = count.add(new BigInteger("1"));
-		return lastValues;
+		return new LinkedList<ValueType>(lastValues);
 	}
 
 	private void setLastValueFor(int index) {
