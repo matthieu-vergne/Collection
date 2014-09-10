@@ -1,4 +1,4 @@
-package fr.vergne.collection.impl;
+package fr.vergne.collection.util;
 
 import static org.junit.Assert.*;
 

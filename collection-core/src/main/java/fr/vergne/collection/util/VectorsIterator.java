@@ -1,4 +1,4 @@
-package fr.vergne.collection.impl;
+package fr.vergne.collection.util;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

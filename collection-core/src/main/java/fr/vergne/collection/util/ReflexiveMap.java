@@ -1,4 +1,4 @@
-package fr.vergne.collection.impl;
+package fr.vergne.collection.util;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
