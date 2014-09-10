@@ -15,18 +15,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class VectorsIterator<ValueType> implements Iterator<List<ValueType>> {
+public class ListIterator<ValueType> implements Iterator<List<ValueType>> {
 
 	private final List<Set<ValueType>> potentialValues = new ArrayList<Set<ValueType>>();
 	private final List<Iterator<ValueType>> iterators = new ArrayList<Iterator<ValueType>>();
 	private final List<ValueType> lastValues = new ArrayList<ValueType>();
 	private BigInteger count = new BigInteger("0");
 
-	public VectorsIterator(Collection<? extends ValueType>... possibleValues) {
+	public ListIterator(Collection<? extends ValueType>... possibleValues) {
 		this(false, possibleValues);
 	}
 
-	public VectorsIterator(boolean allowEmpty,
+	public ListIterator(boolean allowEmpty,
 			Collection<? extends ValueType>... possibleValues) {
 		for (Collection<? extends ValueType> values : possibleValues) {
 			potentialValues.add(new LinkedHashSet<ValueType>(values));
@@ -41,20 +41,20 @@ public class VectorsIterator<ValueType> implements Iterator<List<ValueType>> {
 		}
 	}
 
-	public <ObjectType> VectorsIterator(
+	public <ObjectType> ListIterator(
 			Map<ObjectType, ? extends Collection<ValueType>> possibleValues) {
 		this(possibleValues, Collections.<ObjectType, ValueType> emptyMap(),
 				possibleValues.keySet(), false);
 	}
 
-	public <ObjectType> VectorsIterator(
+	public <ObjectType> ListIterator(
 			Map<ObjectType, ? extends Collection<ValueType>> possibleValues,
 			Map<ObjectType, ValueType> observedValues,
 			Collection<ObjectType> elementsConsidered) {
 		this(possibleValues, observedValues, elementsConsidered, false);
 	}
 
-	public <ObjectType> VectorsIterator(
+	public <ObjectType> ListIterator(
 			Map<ObjectType, ? extends Collection<ValueType>> possibleValues,
 			Map<ObjectType, ValueType> observedValues,
 			Collection<ObjectType> elementsConsidered, boolean allowEmpty) {
@@ -97,7 +97,7 @@ public class VectorsIterator<ValueType> implements Iterator<List<ValueType>> {
 		}
 	}
 
-	public BigInteger getAmountOfPossibleVectors() {
+	public BigInteger getAmountOfPossibleLists() {
 		BigInteger max = new BigInteger("1");
 		for (Set<?> values : potentialValues) {
 			max = max.multiply(new BigInteger("" + values.size()));
@@ -105,13 +105,13 @@ public class VectorsIterator<ValueType> implements Iterator<List<ValueType>> {
 		return max;
 	}
 
-	public BigInteger getAmountOFGeneratedVectors() {
+	public BigInteger getAmountOFGeneratedLists() {
 		return count;
 	}
 
-	public boolean isPossibleVector(List<Object> vector) {
+	public boolean isPossibleList(List<Object> list) {
 		for (int i = 0; i < potentialValues.size(); i++) {
-			if (potentialValues.get(i).contains(vector.get(i))) {
+			if (potentialValues.get(i).contains(list.get(i))) {
 				continue;
 			} else {
 				return false;
@@ -122,7 +122,7 @@ public class VectorsIterator<ValueType> implements Iterator<List<ValueType>> {
 
 	@Override
 	public boolean hasNext() {
-		if (getAmountOfPossibleVectors().compareTo(BigInteger.ZERO) > 0) {
+		if (getAmountOfPossibleLists().compareTo(BigInteger.ZERO) > 0) {
 			for (Iterator<?> iterator : iterators) {
 				if (iterator.hasNext()) {
 					return true;
@@ -186,7 +186,7 @@ public class VectorsIterator<ValueType> implements Iterator<List<ValueType>> {
 		nodesConsidered.add(3);
 		nodesConsidered.add(4);
 
-		VectorsIterator<Integer> iterator = new VectorsIterator<Integer>(
+		ListIterator<Integer> iterator = new ListIterator<Integer>(
 				nodePossibleValues, nodeObservedValues, nodesConsidered);
 		while (iterator.hasNext()) {
 			List<Integer> values = iterator.next();

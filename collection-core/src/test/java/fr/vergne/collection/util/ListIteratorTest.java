@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class VectorsIteratorTest {
+public class ListIteratorTest {
 
 	@Test
 	public void testIterator() {
@@ -18,7 +18,7 @@ public class VectorsIteratorTest {
 		List<String> values2 = Arrays.asList("a", "b");
 		List<Integer> values3 = values1;
 		@SuppressWarnings("unchecked")
-		VectorsIterator<Object> iterator = new VectorsIterator<Object>(values1,
+		ListIterator<Object> iterator = new ListIterator<Object>(values1,
 				values2, values3);
 
 		Collection<List<Object>> expected = new LinkedList<List<Object>>();
@@ -84,20 +84,20 @@ public class VectorsIteratorTest {
 	public void testNotSameInstance() {
 		List<Integer> values = Arrays.asList(1, 2, 3);
 		@SuppressWarnings("unchecked")
-		VectorsIterator<Integer> iterator = new VectorsIterator<Integer>(
-				values, values, values);
+		ListIterator<Integer> iterator = new ListIterator<Integer>(values,
+				values, values);
 
 		Collection<List<Integer>> instances = new LinkedList<List<Integer>>();
 		while (iterator.hasNext()) {
-			List<Integer> vector = iterator.next();
+			List<Integer> list = iterator.next();
 			for (List<Integer> seen : instances) {
-				if (seen == vector) {
+				if (seen == list) {
 					fail("Same instance reused");
 				} else {
 					continue;
 				}
 			}
-			instances.add(vector);
+			instances.add(list);
 		}
 	}
 
