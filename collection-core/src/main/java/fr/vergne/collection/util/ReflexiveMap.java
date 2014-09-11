@@ -5,6 +5,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A {@link ReflexiveMap} aims at providing a {@link Map} which support a
+ * bijective relation. In other words, the {@link Value} can be considered as a
+ * key for the {@link Key}. Such {@link Map} can thus be mirrored to be able to
+ * access {@link Key}s by providing the corresponding {@link Value}s. This is
+ * what is supported by the {@link #reverse()} method.
+ * 
+ * @author Matthieu Vergne <matthieu.vergne@gmail.com>
+ * 
+ * @param <Key>
+ * @param <Value>
+ */
 public class ReflexiveMap<Key, Value> implements Map<Key, Value> {
 
 	private final Map<Key, Value> keyValue;

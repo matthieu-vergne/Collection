@@ -8,6 +8,24 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+/**
+ * A {@link SetIterator} aims at providing a way to generate an exhaustive
+ * sequence of possible {@link Set}s. Each {@link Set} is a subset of the one
+ * provided in the constructor.<br/>
+ * <br/>
+ * Typically, a {@link SetIterator} can be used to generate a <a
+ * href="http://en.wikipedia.org/wiki/Power_set">power set</a>, but the empty
+ * set is not generated. If such a set need to be considered, it should be so
+ * separately to this {@link SetIterator}.<br/>
+ * <br/>
+ * Additional methods are provided such as {@link #getAmountOfPossibleSets()} or
+ * {@link #isPossibleSet(set)} to be able to evaluate a given {@link Set}
+ * regarding the full set, without having to generate this full set.
+ * 
+ * @author Matthieu Vergne <matthieu.vergne@gmail.com>
+ * 
+ * @param <T>
+ */
 public class SetIterator<T> implements Iterator<Set<T>> {
 
 	private final List<T> values;

@@ -15,6 +15,27 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * A {@link ListIterator} aims at providing a way to generate an exhaustive
+ * sequence of possible {@link List}s. Each {@link List} has the same size and
+ * is consistent regarding the order of its elements: if the
+ * {@link ListIterator} is configured with a set of {@link Integer}s, a set of
+ * {@link String}s and a set of {@link Boolean}s, then the {@link List}s
+ * generated always have an {@link Integer}, a {@link String} and a
+ * {@link Boolean} in the same order.<br/>
+ * <br/>
+ * Typically, a {@link ListIterator} can be used to generate a set of vectors or
+ * possible configurations, where each configuration uses the same pattern of
+ * (heterogeneous) parameters.<br/>
+ * <br/>
+ * Additional methods are provided such as {@link #getAmountOfPossibleLists()}
+ * or {@link #isPossibleList(List)} to be able to evaluate a given {@link List}
+ * regarding the full set, without having to generate this full set.
+ * 
+ * @author Matthieu Vergne <matthieu.vergne@gmail.com>
+ * 
+ * @param <T>
+ */
 public class ListIterator<T> implements Iterator<List<T>> {
 
 	private final List<Set<T>> potentialValues = new ArrayList<Set<T>>();
