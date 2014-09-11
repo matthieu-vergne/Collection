@@ -15,23 +15,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class ListIterator<ValueType> implements Iterator<List<ValueType>> {
+public class ListIterator<T> implements Iterator<List<T>> {
 
-	private final List<Set<ValueType>> potentialValues = new ArrayList<Set<ValueType>>();
-	private final List<Iterator<ValueType>> iterators = new ArrayList<Iterator<ValueType>>();
-	private final List<ValueType> lastValues = new ArrayList<ValueType>();
+	private final List<Set<T>> potentialValues = new ArrayList<Set<T>>();
+	private final List<Iterator<T>> iterators = new ArrayList<Iterator<T>>();
+	private final List<T> lastValues = new ArrayList<T>();
 	private BigInteger count = new BigInteger("0");
 
-	public ListIterator(Collection<? extends ValueType>... possibleValues) {
+	public ListIterator(Collection<? extends T>... possibleValues) {
 		this(false, possibleValues);
 	}
 
 	public ListIterator(boolean allowEmpty,
-			Collection<? extends ValueType>... possibleValues) {
-		for (Collection<? extends ValueType> values : possibleValues) {
-			potentialValues.add(new LinkedHashSet<ValueType>(values));
+			Collection<? extends T>... possibleValues) {
+		for (Collection<? extends T> values : possibleValues) {
+			potentialValues.add(new LinkedHashSet<T>(values));
 		}
-		for (Set<ValueType> values : potentialValues) {
+		for (Set<T> values : potentialValues) {
 			if (!allowEmpty && values.isEmpty()) {
 				throw new RuntimeException(
 						"One of the node have no known potential value. We cannot compute its possible values.");
@@ -42,21 +42,21 @@ public class ListIterator<ValueType> implements Iterator<List<ValueType>> {
 	}
 
 	public <ObjectType> ListIterator(
-			Map<ObjectType, ? extends Collection<ValueType>> possibleValues) {
-		this(possibleValues, Collections.<ObjectType, ValueType> emptyMap(),
+			Map<ObjectType, ? extends Collection<T>> possibleValues) {
+		this(possibleValues, Collections.<ObjectType, T> emptyMap(),
 				possibleValues.keySet(), false);
 	}
 
 	public <ObjectType> ListIterator(
-			Map<ObjectType, ? extends Collection<ValueType>> possibleValues,
-			Map<ObjectType, ValueType> observedValues,
+			Map<ObjectType, ? extends Collection<T>> possibleValues,
+			Map<ObjectType, T> observedValues,
 			Collection<ObjectType> elementsConsidered) {
 		this(possibleValues, observedValues, elementsConsidered, false);
 	}
 
 	public <ObjectType> ListIterator(
-			Map<ObjectType, ? extends Collection<ValueType>> possibleValues,
-			Map<ObjectType, ValueType> observedValues,
+			Map<ObjectType, ? extends Collection<T>> possibleValues,
+			Map<ObjectType, T> observedValues,
 			Collection<ObjectType> elementsConsidered, boolean allowEmpty) {
 		List<ObjectType> pattern = new LinkedList<ObjectType>(
 				elementsConsidered);
@@ -64,30 +64,30 @@ public class ListIterator<ValueType> implements Iterator<List<ValueType>> {
 			potentialValues.add(null);
 		}
 
-		for (Entry<ObjectType, ValueType> entry : observedValues.entrySet()) {
+		for (Entry<ObjectType, T> entry : observedValues.entrySet()) {
 			ObjectType node = entry.getKey();
 			int index = pattern.indexOf(node);
 			if (elementsConsidered.contains(node)) {
-				LinkedHashSet<ValueType> singleton = new LinkedHashSet<ValueType>();
+				LinkedHashSet<T> singleton = new LinkedHashSet<T>();
 				singleton.add(entry.getValue());
 				potentialValues.set(index, singleton);
 			} else {
 				continue;
 			}
 		}
-		for (Entry<ObjectType, ? extends Collection<ValueType>> entry : possibleValues
+		for (Entry<ObjectType, ? extends Collection<T>> entry : possibleValues
 				.entrySet()) {
 			ObjectType node = entry.getKey();
 			int index = pattern.indexOf(node);
 			if (elementsConsidered.contains(node)
 					&& potentialValues.get(index) == null) {
 				potentialValues.set(index,
-						new LinkedHashSet<ValueType>(entry.getValue()));
+						new LinkedHashSet<T>(entry.getValue()));
 			} else {
 				continue;
 			}
 		}
-		for (Set<ValueType> values : potentialValues) {
+		for (Set<T> values : potentialValues) {
 			if (!allowEmpty && values.isEmpty()) {
 				throw new RuntimeException(
 						"One of the node have no known potential value. We cannot compute its possible values.");
@@ -137,9 +137,9 @@ public class ListIterator<ValueType> implements Iterator<List<ValueType>> {
 	}
 
 	@Override
-	public List<ValueType> next() {
+	public List<T> next() {
 		if (lastValues.isEmpty()) {
-			for (Iterator<ValueType> iterator : iterators) {
+			for (Iterator<T> iterator : iterators) {
 				lastValues.add(iterator.next());
 			}
 		} else {
@@ -147,11 +147,11 @@ public class ListIterator<ValueType> implements Iterator<List<ValueType>> {
 			setLastValueFor(index);
 		}
 		count = count.add(new BigInteger("1"));
-		return new LinkedList<ValueType>(lastValues);
+		return new LinkedList<T>(lastValues);
 	}
 
 	private void setLastValueFor(int index) {
-		Iterator<ValueType> iterator = iterators.get(index);
+		Iterator<T> iterator = iterators.get(index);
 		if (iterator.hasNext()) {
 			// use this iterator
 		} else {
