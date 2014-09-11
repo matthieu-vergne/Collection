@@ -1,6 +1,6 @@
 package fr.vergne.collection.util;
 
-import java.util.Collection;
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -13,7 +13,7 @@ public class SetIterator<T> implements Iterator<Set<T>> {
 	private final List<T> values;
 	private LinkedList<Integer> currentSet = new LinkedList<Integer>();
 
-	public SetIterator(Collection<T> values) {
+	public SetIterator(Set<T> values) {
 		this.values = new LinkedList<T>(values);
 	}
 
@@ -58,5 +58,14 @@ public class SetIterator<T> implements Iterator<Set<T>> {
 	@Override
 	public void remove() {
 		throw new RuntimeException();
+	}
+
+	public BigInteger getAmountOfPossibleSets() {
+		return BigInteger.valueOf(2).pow(values.size())
+				.subtract(BigInteger.ONE);
+	}
+
+	public boolean isPossibleSet(Set<T> set) {
+		return !set.isEmpty() && values.containsAll(set);
 	}
 }
