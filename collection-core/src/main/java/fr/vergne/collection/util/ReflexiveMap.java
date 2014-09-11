@@ -12,9 +12,21 @@ public class ReflexiveMap<Key, Value> implements Map<Key, Value> {
 	private final ReflexiveMap<Value, Key> reversed;
 
 	public ReflexiveMap() {
-		keyValue = new LinkedHashMap<Key, Value>();
-		valueKey = new LinkedHashMap<Value, Key>();
+		keyValue = generateInternalMap();
+		valueKey = generateInternalMap();
 		reversed = new ReflexiveMap<Value, Key>(this);
+	}
+
+	/**
+	 * Internally, two different {@link Map}s are used to store the data. Each
+	 * update on this {@link ReflexiveMap} correspond to an update to both these
+	 * internal {@link Map}s. You can override this method to change the type of
+	 * internal {@link Map} used.
+	 * 
+	 * @return the type of map backed by this {@link ReflexiveMap}
+	 */
+	protected <K, V> Map<K, V> generateInternalMap() {
+		return new LinkedHashMap<K, V>();
 	}
 
 	private ReflexiveMap(ReflexiveMap<Value, Key> reflex) {
