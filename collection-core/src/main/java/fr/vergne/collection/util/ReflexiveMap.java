@@ -113,4 +113,9 @@ public class ReflexiveMap<Key, Value> implements Map<Key, Value> {
 	public ReflexiveMap<Value, Key> reverse() {
 		return reversed;
 	}
+
+	@Override
+	public String toString() {
+		return keyValue.toString();
+	}
 }
