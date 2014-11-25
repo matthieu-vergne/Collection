@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MapUtils {
 
@@ -74,5 +75,31 @@ public class MapUtils {
 		}
 
 		return reducedLinks;
+	}
+
+	/**
+	 * This method allows to check whether or not two maps have the same content
+	 * (same keys with same values).
+	 * 
+	 * @param map1
+	 * @param map2
+	 * @return <code>true</code> if they are equals, <code>false</code>
+	 *         otherwise
+	 */
+	public static <K, V> boolean equals(Map<K, V> map1, Map<K, V> map2) {
+		Set<K> keys1 = map1.keySet();
+		Set<K> keys2 = map2.keySet();
+		if (!keys1.containsAll(keys2) || !keys2.containsAll(keys1)) {
+			return false;
+		} else {
+			for (K key : keys1) {
+				if (map1.get(key).equals(map2.get(key))) {
+					// not found a difference yet
+				} else {
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 }

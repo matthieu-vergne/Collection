@@ -73,4 +73,37 @@ public class MapUtilsTest {
 		}
 	}
 
+	@Test
+	public void testEquals() {
+		Map<String, Integer> mapRef = new HashMap<String, Integer>();
+		mapRef.put("a", 1);
+		mapRef.put("b", 2);
+		mapRef.put("c", 3);
+		Map<String, Integer> mapEqual = new HashMap<String, Integer>();
+		mapEqual.put("c", 3);
+		mapEqual.put("a", 1);
+		mapEqual.put("b", 2);
+		Map<String, Integer> mapModifiedValue = new HashMap<String, Integer>();
+		mapModifiedValue.put("a", 1);
+		mapModifiedValue.put("b", 5);
+		mapModifiedValue.put("c", 3);
+		Map<String, Integer> mapModifiedKey = new HashMap<String, Integer>();
+		mapModifiedKey.put("a", 1);
+		mapModifiedKey.put("d", 2);
+		mapModifiedKey.put("c", 3);
+		Map<String, Integer> mapRemoved = new HashMap<String, Integer>();
+		mapRemoved.put("a", 1);
+		mapRemoved.put("c", 3);
+		Map<String, Integer> mapAdded = new HashMap<String, Integer>();
+		mapAdded.put("c", 3);
+		mapAdded.put("a", 1);
+		mapAdded.put("b", 2);
+		mapAdded.put("d", 8);
+
+		assertTrue(MapUtils.equals(mapRef, mapEqual));
+		assertFalse(MapUtils.equals(mapRef, mapModifiedValue));
+		assertFalse(MapUtils.equals(mapRef, mapModifiedKey));
+		assertFalse(MapUtils.equals(mapRef, mapRemoved));
+		assertFalse(MapUtils.equals(mapRef, mapAdded));
+	}
 }
