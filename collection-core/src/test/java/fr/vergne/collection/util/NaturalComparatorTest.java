@@ -100,4 +100,13 @@ public class NaturalComparatorTest {
 		assertTrue(comparator.compare("a", "") > 0);
 	}
 
+	@Test
+	public void testDifferentStartString() {
+		NaturalComparator comparator = new NaturalComparator();
+		assertTrue(comparator.compare("1", "a") < 0);
+		assertTrue(comparator.compare("a", "2b") > 0);
+		assertTrue(comparator.compare("ab", "2b") > 0);
+		assertTrue(comparator.compare("b", "2b") > 0);
+	}
+
 }
