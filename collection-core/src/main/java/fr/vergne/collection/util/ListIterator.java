@@ -38,10 +38,11 @@ import java.util.Set;
  */
 public class ListIterator<T> implements Iterator<List<T>> {
 
-	private final List<Set<T>> potentialValues = new ArrayList<Set<T>>();
+	private final List<Set<T>> potentialValues;
 	private final List<Iterator<T>> iterators = new ArrayList<Iterator<T>>();
 	private final List<T> lastValues = new ArrayList<T>();
 	private BigInteger count = new BigInteger("0");
+	private BigInteger amountOfPossibleLists = null;
 
 	public ListIterator(Collection<? extends T>... possibleValues) {
 		this(false, possibleValues);
@@ -49,6 +50,7 @@ public class ListIterator<T> implements Iterator<List<T>> {
 
 	public ListIterator(boolean allowEmpty,
 			Collection<? extends T>... possibleValues) {
+		List<Set<T>> potentialValues = new ArrayList<Set<T>>();
 		for (Collection<? extends T> values : possibleValues) {
 			potentialValues.add(new LinkedHashSet<T>(values));
 		}
@@ -60,6 +62,7 @@ public class ListIterator<T> implements Iterator<List<T>> {
 				iterators.add(values.iterator());
 			}
 		}
+		this.potentialValues = Collections.unmodifiableList(potentialValues);
 	}
 
 	public <ObjectType> ListIterator(
@@ -79,6 +82,7 @@ public class ListIterator<T> implements Iterator<List<T>> {
 			Map<ObjectType, ? extends Collection<T>> possibleValues,
 			Map<ObjectType, T> observedValues,
 			Collection<ObjectType> elementsConsidered, boolean allowEmpty) {
+		List<Set<T>> potentialValues = new ArrayList<Set<T>>();
 		List<ObjectType> pattern = new LinkedList<ObjectType>(
 				elementsConsidered);
 		for (int i = 0; i < pattern.size(); i++) {
@@ -116,14 +120,19 @@ public class ListIterator<T> implements Iterator<List<T>> {
 				iterators.add(values.iterator());
 			}
 		}
+		this.potentialValues = Collections.unmodifiableList(potentialValues);
 	}
 
 	public BigInteger getAmountOfPossibleLists() {
-		BigInteger max = new BigInteger("1");
-		for (Set<?> values : potentialValues) {
-			max = max.multiply(new BigInteger("" + values.size()));
+		if (amountOfPossibleLists == null) {
+			amountOfPossibleLists = new BigInteger("1");
+			for (Set<?> values : potentialValues) {
+				amountOfPossibleLists = amountOfPossibleLists.multiply(new BigInteger("" + values.size()));
+			}
+		} else {
+			// already computed
 		}
-		return max;
+		return amountOfPossibleLists;
 	}
 
 	public BigInteger getAmountOFGeneratedLists() {
