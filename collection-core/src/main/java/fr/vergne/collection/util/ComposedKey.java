@@ -1,6 +1,7 @@
 package fr.vergne.collection.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,10 @@ public class ComposedKey<T> implements Iterable<T> {
 
 	public ComposedKey(List<T> keys) {
 		this.keys = Collections.unmodifiableList(new ArrayList<T>(keys));
+	}
+
+	public ComposedKey(T... keys) {
+		this(Arrays.asList(keys));
 	}
 
 	@SuppressWarnings("unchecked")
