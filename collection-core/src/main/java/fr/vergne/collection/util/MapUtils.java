@@ -102,4 +102,34 @@ public class MapUtils {
 			return true;
 		}
 	}
+
+	/**
+	 * While {@link Map#get(Object)} provide the single value assigned to a
+	 * single key, this method aims at retrieving a {@link List} of values
+	 * corresponding to a {@link List} of keys.
+	 * 
+	 * @param keys
+	 *            the keys to consider
+	 * @param map
+	 *            the translation map
+	 * @param isMissingKeyAllowed
+	 *            <code>true</code> to map an unknown key to a <code>null</code>
+	 *            value, <code>false</code> to throw an exception
+	 * @return the values corresponding to the keys
+	 * @throws IllegalArgumentException
+	 *             if a requested key is not found in the map and non-mapped
+	 *             keys are not allowed
+	 */
+	public static <K, V> List<V> translate(List<K> keys, Map<K, V> map,
+			boolean isMissingKeyAllowed) {
+		List<V> values = new LinkedList<V>();
+		for (K key : keys) {
+			if (!isMissingKeyAllowed && !map.containsKey(key)) {
+				throw new IllegalArgumentException("Key not found: " + key);
+			} else {
+				values.add(map.get(key));
+			}
+		}
+		return values;
+	}
 }

@@ -2,6 +2,7 @@ package fr.vergne.collection.util;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,5 +106,38 @@ public class MapUtilsTest {
 		assertFalse(MapUtils.equals(mapRef, mapModifiedKey));
 		assertFalse(MapUtils.equals(mapRef, mapRemoved));
 		assertFalse(MapUtils.equals(mapRef, mapAdded));
+	}
+
+	@Test
+	public void testTranslate() {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(1, "a");
+		map.put(2, "b");
+		map.put(3, "c");
+		map.put(4, "d");
+		map.put(5, "e");
+
+		assertTrue(ListUtils.equals(
+				MapUtils.translate(Arrays.<Integer> asList(), map, false),
+				Arrays.<String> asList()));
+		assertTrue(ListUtils.equals(
+				MapUtils.translate(Arrays.asList(1, 3, 5), map, false),
+				Arrays.asList("a", "c", "e")));
+		
+		assertFalse(ListUtils.equals(
+				MapUtils.translate(Arrays.asList(1, 2, 3), map, false),
+				Arrays.asList("a", "c", "e")));
+		assertFalse(ListUtils.equals(
+				MapUtils.translate(Arrays.asList(1, 2, 3), map, false),
+				Arrays.asList("c", "b", "a")));
+		
+		assertTrue(ListUtils.equals(
+				MapUtils.translate(Arrays.asList(1, 2, 6), map, true),
+				Arrays.asList("a", "b", null)));
+		try {
+			MapUtils.translate(Arrays.asList(1, 2, 6), map, false);
+			fail("No exception thrown");
+		} catch (IllegalArgumentException e) {
+		}
 	}
 }
