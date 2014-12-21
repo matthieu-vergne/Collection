@@ -11,10 +11,10 @@ import java.util.Map;
  * A {@link ComposedKey} is an utilitary class to compose several pieces of data
  * in a single one and use this composition as a key, for instance in a
  * {@link Map}. Such a key need to be considered as equal to another if both
- * provide the same composition. Thus, the {@link #equals(Object)} and
- * {@link #hashCode()} methods have been overriden consequently. For consistency
- * reasons, a {@link ComposedKey} is made as an immutable object, so it is not
- * possible to change the data it composes.
+ * provide the equivalent objects (a.equals(b), not necessarily a == b) in the
+ * same order. To keep the comparison consistent over time, a
+ * {@link ComposedKey} is made as an immutable object, so it is not possible to
+ * change the data it contains.
  * 
  * @author Matthieu Vergne <matthieu.vergne@gmail.com>
  * 
