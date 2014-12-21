@@ -6,12 +6,55 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NaturalComparator implements Comparator<String> {
+/**
+ * A {@link NaturalComparator} allows to compare two elements in a human way,
+ * which is commonly interpreted as a comparison which:
+ * <ul>
+ * <li>is not case sensitive</li>
+ * <li>treat numbers as numbers (not as strings)</li>
+ * </ul>
+ * For example, "file" and "File" are merely the same names and so should be
+ * grouped together. Also, while "file2" is sorted after "file10" with a
+ * classical sorting (the character "1" is before "2"), a human expect it to be
+ * sorted before because of the counting (2 is before 10).
+ * 
+ * @author Matthieu Vergne <matthieu.vergne@gmail.com>
+ * 
+ */
+public class NaturalComparator<T> implements Comparator<T> {
+
+	private final Translator<T> translator;
+
+	/**
+	 * Instantiate a basic {@link NaturalComparator} which compare the elements
+	 * based on their string representation ({@link Object#toString()}).
+	 */
+	public NaturalComparator() {
+		this(new Translator<T>() {
+
+			@Override
+			public String toString(T object) {
+				return object.toString();
+			}
+		});
+	}
+
+	/**
+	 * Instantiate a {@link NaturalComparator} which exploits a specific string
+	 * representation for the elements.
+	 */
+	public NaturalComparator(Translator<T> translator) {
+		this.translator = translator;
+	}
+
+	public interface Translator<T> {
+		public String toString(T object);
+	}
 
 	@Override
-	public int compare(String s1, String s2) {
-		Chunker chunker1 = new Chunker(s1);
-		Chunker chunker2 = new Chunker(s2);
+	public int compare(T s1, T s2) {
+		Chunker chunker1 = new Chunker(translator.toString(s1));
+		Chunker chunker2 = new Chunker(translator.toString(s2));
 
 		while (chunker1.hasNext() && chunker2.hasNext()) {
 			Object chunk1 = chunker1.next();

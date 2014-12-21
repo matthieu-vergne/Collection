@@ -8,7 +8,7 @@ public class NaturalComparatorTest {
 
 	@Test
 	public void testStringSortingStrings() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("a1a", "a1a") == 0);
 
 		assertTrue(comparator.compare("a1a", "b1a") < 0);
@@ -22,7 +22,7 @@ public class NaturalComparatorTest {
 
 	@Test
 	public void testNumberSortingStrings() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("abc1def", "abc1def") == 0);
 
 		assertTrue(comparator.compare("abc1def", "abc2def") < 0);
@@ -49,7 +49,7 @@ public class NaturalComparatorTest {
 
 	@Test
 	public void testReallyBigNumbers() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("abc123456789123456789123456788def",
 				"abc123456789123456789123456789def") < 0);
 		assertTrue(comparator.compare("abc123456789123456789123456789def",
@@ -58,7 +58,7 @@ public class NaturalComparatorTest {
 
 	@Test
 	public void testReallySmallNumbers() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("abc0.0000000000000000000000001def",
 				"abc0.0000000000000000000000002def") < 0);
 		assertTrue(comparator.compare("abc0.0000000000000000000000002def",
@@ -67,14 +67,14 @@ public class NaturalComparatorTest {
 
 	@Test
 	public void testCaseInsensitivity() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("a", "A") == 0);
 		assertTrue(comparator.compare("aBc123dEf", "aBC123Def") == 0);
 	}
 
 	@Test
 	public void testSpaceBetweenChunksInsensitivity() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("abc123def", "abc123def") == 0);
 		assertTrue(comparator.compare("abc123def", "abc 123def") == 0);
 		assertTrue(comparator.compare("abc123def", "abc123 def") == 0);
@@ -98,7 +98,7 @@ public class NaturalComparatorTest {
 
 	@Test
 	public void testEmptyString() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("", "") == 0);
 		assertTrue(comparator.compare("", "a") < 0);
 		assertTrue(comparator.compare("a", "") > 0);
@@ -106,7 +106,7 @@ public class NaturalComparatorTest {
 
 	@Test
 	public void testDifferentStartString() {
-		NaturalComparator comparator = new NaturalComparator();
+		NaturalComparator<String> comparator = new NaturalComparator<String>();
 		assertTrue(comparator.compare("1", "a") < 0);
 		assertTrue(comparator.compare("a", "2b") > 0);
 		assertTrue(comparator.compare("ab", "2b") > 0);
