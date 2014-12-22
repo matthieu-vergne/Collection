@@ -94,14 +94,14 @@ public class NaturalComparator<T> implements Comparator<T> {
 		}
 	}
 
-	private class Chunker implements Iterator<Object> {
+	private static class Chunker implements Iterator<Object> {
+		private static final Pattern PATTERN = Pattern
+				.compile("[^0-9]++|[0-9]++([.,][0-9]++)?(E-?[0-9]++)?");
 		private final Matcher matcher;
 		private int remaining;
 
 		public Chunker(String string) {
-			Pattern pattern = Pattern
-					.compile("[^0-9]+|[0-9]+([.,][0-9]+)?(E-?[0-9]+)?");
-			matcher = pattern.matcher(string);
+			matcher = PATTERN.matcher(string);
 			remaining = string.length();
 		}
 
@@ -115,9 +115,10 @@ public class NaturalComparator<T> implements Comparator<T> {
 			matcher.find();
 			String chunk = matcher.group();
 			remaining -= chunk.length();
-			try {
+			char c = chunk.charAt(0);
+			if (c >= '0' && c <= '9') {
 				return new BigDecimal(chunk);
-			} catch (NumberFormatException e) {
+			} else {
 				return chunk.trim();
 			}
 		}
