@@ -71,7 +71,6 @@ public class SetIteratorTest {
 				.getAmountOfPossibleSets().intValue());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testPossibleSetsGenerationAndEvaluation() {
 		for (Set<Integer> set : Arrays.asList(set(1), set(1, 2),
@@ -113,7 +112,8 @@ public class SetIteratorTest {
 		assertFalse(iterator.isPossibleSet(Collections.<Integer> emptySet()));
 	}
 
-	private <T> Set<T> set(T... values) {
+	@SafeVarargs
+	private final <T> Set<T> set(T... values) {
 		return new HashSet<T>(Arrays.asList(values));
 	}
 }

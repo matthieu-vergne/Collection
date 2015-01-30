@@ -25,6 +25,7 @@ public interface MultiMap<Key, Value> extends Map<Key, Collection<Value>>,
 	/**
 	 * Same as {@link #populate(Object, Collection)}.
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean populate(Key key, Value... values);
 
 	/**
@@ -39,6 +40,7 @@ public interface MultiMap<Key, Value> extends Map<Key, Collection<Value>>,
 	/**
 	 * Same as {@link #depopulate(Object, Collection)}.
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean depopulate(Key key, Value... values);
 
 	/**

@@ -32,6 +32,7 @@ public abstract class AbstractMultiMap<Key, Value> extends
 	public AbstractMultiMap() {
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean populate(Key key, Value... values) {
 		return populate(key, Arrays.asList(values));
@@ -43,6 +44,7 @@ public abstract class AbstractMultiMap<Key, Value> extends
 		return set.addAll(values);
 	}
 
+	@SafeVarargs
 	@Override
 	public final boolean depopulate(Key key, Value... values) {
 		return depopulate(key, Arrays.asList(values));
@@ -100,7 +102,6 @@ public abstract class AbstractMultiMap<Key, Value> extends
 				return new SimpleImmutableEntry<Key, Value>(key, value);
 			}
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public void remove() {
 				AbstractMultiMap.this.depopulate(key, value);

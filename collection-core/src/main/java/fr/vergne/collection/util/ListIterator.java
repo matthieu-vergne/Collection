@@ -44,10 +44,12 @@ public class ListIterator<T> implements Iterator<List<T>> {
 	private BigInteger count = new BigInteger("0");
 	private BigInteger amountOfPossibleLists = null;
 
+	@SafeVarargs
 	public ListIterator(Collection<? extends T>... possibleValues) {
 		this(false, possibleValues);
 	}
 
+	@SafeVarargs
 	public ListIterator(boolean allowEmpty,
 			Collection<? extends T>... possibleValues) {
 		List<Set<T>> potentialValues = new ArrayList<Set<T>>();

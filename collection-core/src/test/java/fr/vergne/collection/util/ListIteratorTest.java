@@ -17,7 +17,6 @@ public class ListIteratorTest {
 		List<Integer> values1 = Arrays.asList(1, 2, 3);
 		List<String> values2 = Arrays.asList("a", "b");
 		List<Integer> values3 = values1;
-		@SuppressWarnings("unchecked")
 		ListIterator<Object> iterator = new ListIterator<Object>(values1,
 				values2, values3);
 
@@ -83,7 +82,6 @@ public class ListIteratorTest {
 	@Test
 	public void testNotSameInstance() {
 		List<Integer> values = Arrays.asList(1, 2, 3);
-		@SuppressWarnings("unchecked")
 		ListIterator<Integer> iterator = new ListIterator<Integer>(values,
 				values, values);
 
