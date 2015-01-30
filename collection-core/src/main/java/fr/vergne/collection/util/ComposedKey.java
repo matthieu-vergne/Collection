@@ -77,4 +77,9 @@ public class ComposedKey<T> implements Iterable<T> {
 		}
 		return hash;
 	}
+	
+	@Override
+	public String toString() {
+		return keys.toString();
+	}
 }
