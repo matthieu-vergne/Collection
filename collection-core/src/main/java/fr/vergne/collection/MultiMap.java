@@ -13,7 +13,9 @@ import java.util.Map.Entry;
  * key and each of its <u>single</u> values. Thus, where the Apache one appears
  * as a common {@link Map} but with the need to make casting and other tricky
  * things to use it fully, this {@link MultiMap} implements as much as possible
- * the concept to provide a user-friendly class.
+ * the concept to provide a user-friendly class, without breaking the contract
+ * of a {@link Map} which explicitly mentions that
+ * "each key can map to at most one value" (Java 1.6 documentation).
  * 
  * @author Matthieu Vergne <vergne@fbk.eu>
  * 
