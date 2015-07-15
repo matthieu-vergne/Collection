@@ -25,7 +25,37 @@ import java.util.Map.Entry;
 public interface MultiMap<Key, Value> extends Map<Key, Collection<Value>>,
 		Iterable<Entry<Key, Value>> {
 	/**
+	 * Map a key to the provided value. If there is already values mapped to
+	 * this key, the new value is added (the old ones are kept, not replaced).
+	 * 
+	 * @param key
+	 *            the key to map
+	 * @param value
+	 *            the value to map to that key
+	 * @return <code>true</code> if the mapping has been changed,
+	 *         <code>false</code> otherwise
+	 */
+	public boolean add(Key key, Value value);
+
+	/**
+	 * Map a key to all the provided values. If there is already values mapped
+	 * to this key, the new values are added (the old ones are kept, not
+	 * replaced).
+	 * 
+	 * @param key
+	 *            the key to map
+	 * @param values
+	 *            the values to map to that key
+	 * @return <code>true</code> if the mapping has been changed,
+	 *         <code>false</code> otherwise
+	 */
+	public boolean addAll(Key key, Collection<Value> values);
+
+	/**
 	 * Same as {@link #populate(Object, Collection)}.
+	 * 
+	 * @deprecated Use {@link #add(Object, Object)} or
+	 *             {@link #addAll(Object, Collection)}.
 	 */
 	public boolean populate(Key key, Value... values);
 
@@ -35,11 +65,40 @@ public interface MultiMap<Key, Value> extends Map<Key, Collection<Value>>,
 	 * replaced).
 	 * 
 	 * @return <code>true</code> if some values have been added
+	 * @deprecated Use {@link #add(Object, Object)} or
+	 *             {@link #addAll(Object, Collection)}.
 	 */
 	public boolean populate(Key key, Collection<Value> values);
 
 	/**
+	 * Unmap a specific value from a key.
+	 * 
+	 * @param key
+	 *            the key to map
+	 * @param value
+	 *            the value to remove from that key
+	 * @return <code>true</code> if the mapping has been changed,
+	 *         <code>false</code> otherwise
+	 */
+	public boolean remove(Key key, Value value);
+
+	/**
+	 * Unmap a collection of values from a key.
+	 * 
+	 * @param key
+	 *            the key to map
+	 * @param values
+	 *            the values to remove from that key
+	 * @return <code>true</code> if the mapping has been changed,
+	 *         <code>false</code> otherwise
+	 */
+	public boolean removeAll(Key key, Collection<Value> values);
+
+	/**
 	 * Same as {@link #depopulate(Object, Collection)}.
+	 * 
+	 * @deprecated Use {@link #remove(Object, Object)} or
+	 *             {@link #removeAll(Object, Collection)}.
 	 */
 	public boolean depopulate(Key key, Value... values);
 
@@ -52,6 +111,8 @@ public interface MultiMap<Key, Value> extends Map<Key, Collection<Value>>,
 	 * @param values
 	 *            the values to remove
 	 * @return <code>true</code> if some values have been removed
+	 * @deprecated Use {@link #remove(Object, Object)} or
+	 *             {@link #removeAll(Object, Collection)}.
 	 */
 	public boolean depopulate(Key key, Collection<Value> values);
 

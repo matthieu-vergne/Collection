@@ -33,16 +33,39 @@ public abstract class AbstractMultiMap<Key, Value> extends
 	}
 
 	@Override
-	public final boolean populate(Key key, Value... values) {
-		return populate(key, Arrays.asList(values));
+	public boolean add(Key key, Value value) {
+		Collection<Value> set = getContainerFor(key);
+		return set.add(value);
 	}
 
 	@Override
-	public final boolean populate(Key key, Collection<Value> values) {
+	public boolean addAll(Key key, Collection<Value> values) {
 		Collection<Value> set = getContainerFor(key);
 		return set.addAll(values);
 	}
 
+	@Override
+	public final boolean populate(Key key, Value... values) {
+		return addAll(key, Arrays.asList(values));
+	}
+	
+	@Override
+	public final boolean populate(Key key, Collection<Value> values) {
+		return addAll(key, values);
+	}
+	
+	@Override
+	public boolean remove(Key key, Value value) {
+		Collection<Value> set = getContainerFor(key);
+		return set.remove(value);
+	}
+	
+	@Override
+	public boolean removeAll(Key key, Collection<Value> values) {
+		Collection<Value> set = getContainerFor(key);
+		return set.removeAll(values);
+	}
+	
 	@Override
 	public final boolean depopulate(Key key, Value... values) {
 		return depopulate(key, Arrays.asList(values));
