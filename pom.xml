@@ -15,8 +15,8 @@
 	</modules>
 
 	<scm>
-		<connection>scm:git:git://github.com/matthieu-vergne/Collection.git</connection>
-		<developerConnection>scm:git:git://github.com/matthieu-vergne/Collection.git</developerConnection>
+		<connection>scm:git:git@github.com:matthieu-vergne/Collection.git</connection>
+		<developerConnection>scm:git:git@github.com:matthieu-vergne/Collection.git</developerConnection>
 		<url>scm:git:git://github.com/matthieu-vergne/Collection.git</url>
 	</scm>
 	
