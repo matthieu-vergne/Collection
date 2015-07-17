@@ -71,12 +71,20 @@ public class Cache {
 	 * @param value
 	 *            the value to map to this {@link CacheKey}
 	 */
-	public synchronized <T> void put(CacheKey<T> key, T value) {
-		map.put(key, value);
+	@SuppressWarnings("unchecked")
+	public synchronized <T> T put(CacheKey<T> key, T value) {
+		return (T) map.put(key, value);
 	}
 
-	public synchronized void remove(CacheKey<?> key) {
-		map.remove(key);
+	/**
+	 * 
+	 * @param key
+	 *            the {@link CacheKey} to map
+	 * @return the value previously mapped to this key
+	 */
+	@SuppressWarnings("unchecked")
+	public synchronized <T> T remove(CacheKey<T> key) {
+		return (T) map.remove(key);
 	}
 
 	/**

@@ -181,4 +181,25 @@ public class CacheTest {
 		assertEquals("test", cache.get(key1));
 		assertEquals((Integer) 3, cache.get(key2));
 	}
+
+	@Test
+	public void testPutNewValueReturnsOldValue() {
+		Cache cache = new Cache();
+
+		CacheKey<String> key1 = new CacheKey<String>();
+		assertEquals(null, cache.put(key1, "test"));
+		assertEquals("test", cache.put(key1, "test"));
+		assertEquals("test", cache.put(key1, "aze"));
+		assertEquals("aze", cache.put(key1, null));
+		assertEquals(null, cache.put(key1, null));
+	}
+
+	@Test
+	public void testRemoveReturnsValue() {
+		Cache cache = new Cache();
+
+		CacheKey<String> key1 = new CacheKey<String>();
+		cache.put(key1, "test");
+		assertEquals("test", cache.remove(key1));
+	}
 }
