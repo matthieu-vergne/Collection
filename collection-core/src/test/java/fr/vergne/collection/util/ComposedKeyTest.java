@@ -24,7 +24,6 @@ public class ComposedKeyTest {
 				new ComposedKey<Integer>(Arrays.asList(1, 2, 3, 4)).size());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testGet() {
 		for (List<Integer> list : Arrays.asList(Arrays.asList(1, 2, 3, 4),
@@ -36,7 +35,6 @@ public class ComposedKeyTest {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testIterator() {
 		for (List<Integer> list : Arrays.asList(Arrays.asList(1, 2, 3, 4),

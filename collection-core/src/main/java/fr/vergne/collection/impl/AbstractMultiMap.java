@@ -1,9 +1,11 @@
 package fr.vergne.collection.impl;
 
-import java.util.Arrays;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import fr.vergne.collection.MultiMap;
 
@@ -18,14 +20,16 @@ import fr.vergne.collection.MultiMap;
  * 
  * @param <Key>
  * @param <Value>
+ * @deprecated The code now has its dedicated project at: https://github.com/matthieu-vergne/multi-map
  */
-@SuppressWarnings("serial")
-public abstract class AbstractMultiMap<Key, Value> extends
-		HashMap<Key, Collection<Value>> implements MultiMap<Key, Value> {
+public abstract class AbstractMultiMap<Key, Value> implements
+		MultiMap<Key, Value> {
+
+	private final HashMap<Key, Collection<Value>> innerMap = new HashMap<Key, Collection<Value>>();
 
 	public AbstractMultiMap(MultiMap<Key, Value> map) {
 		for (Entry<Key, Collection<Value>> entry : map.entrySet()) {
-			populate(entry.getKey(), entry.getValue());
+			addAll(entry.getKey(), entry.getValue());
 		}
 	}
 
@@ -45,58 +49,31 @@ public abstract class AbstractMultiMap<Key, Value> extends
 	}
 
 	@Override
-	public final boolean populate(Key key, Value... values) {
-		return addAll(key, Arrays.asList(values));
-	}
-	
-	@Override
-	public final boolean populate(Key key, Collection<Value> values) {
-		return addAll(key, values);
-	}
-	
-	@Override
 	public boolean remove(Key key, Value value) {
 		Collection<Value> set = getContainerFor(key);
 		return set.remove(value);
 	}
-	
+
 	@Override
 	public boolean removeAll(Key key, Collection<Value> values) {
 		Collection<Value> set = getContainerFor(key);
 		return set.removeAll(values);
 	}
-	
-	@Override
-	public final boolean depopulate(Key key, Value... values) {
-		return depopulate(key, Arrays.asList(values));
-	}
-
-	@Override
-	public final boolean depopulate(Key key, Collection<Value> values) {
-		Collection<Value> set = getContainerFor(key);
-		boolean changed = set.removeAll(values);
-		if (set.isEmpty()) {
-			remove(key);
-		} else {
-			// still have values, keep the key
-		}
-		return changed;
-	}
 
 	private Collection<Value> getContainerFor(Key key) {
 		if (!containsKey(key)) {
-			put(key, generateInnerCollection(key));
+			innerMap.put(key, generateInnerCollection(key));
 		} else {
 			// use the already present collection
 		}
-		return get(key);
+		return innerMap.get(key);
 	}
 
 	protected abstract Collection<Value> generateInnerCollection(Key key);
 
 	@Override
 	public boolean containsCouple(Key key, Value value) {
-		return containsKey(key) && get(key).contains(value);
+		return containsKey(key) && innerMap.get(key).contains(value);
 	}
 
 	@Override
@@ -110,25 +87,79 @@ public abstract class AbstractMultiMap<Key, Value> extends
 
 			@Override
 			public boolean hasNext() {
-				return keysIterator.hasNext() || valuesIterator != null && valuesIterator.hasNext();
+				return keysIterator.hasNext() || valuesIterator != null
+						&& valuesIterator.hasNext();
 			}
 
 			@Override
 			public Entry<Key, Value> next() {
 				while (valuesIterator == null || !valuesIterator.hasNext()) {
 					key = keysIterator.next();
-					valuesIterator = AbstractMultiMap.this.get(key).iterator();
+					valuesIterator = AbstractMultiMap.this.innerMap.get(key)
+							.iterator();
 				}
 				value = valuesIterator.next();
-				return new SimpleImmutableEntry<Key, Value>(key, value);
+				return new AbstractMap.SimpleImmutableEntry<Key, Value>(key,
+						value);
 			}
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public void remove() {
-				AbstractMultiMap.this.depopulate(key, value);
+				AbstractMultiMap.this.remove(key, value);
 			}
 
 		};
+	}
+	
+	@Override
+	public Collection<Value> replaceAll(Key key, Collection<Value> collection) {
+		Collection<Value> actualCollection = generateInnerCollection(key);
+		actualCollection.addAll(collection);
+		return innerMap.put(key, actualCollection);
+	}
+
+	@Override
+	public Collection<Value> getAll(Object key) {
+		return innerMap.get(key);
+	}
+
+	@Override
+	public Set<Key> keySet() {
+		return innerMap.keySet();
+	}
+
+	@Override
+	public Collection<Collection<Value>> collections() {
+		return innerMap.values();
+	}
+
+	@Override
+	public Set<Entry<Key, Collection<Value>>> entrySet() {
+		return innerMap.entrySet();
+	}
+
+	@Override
+	public Collection<Value> remove(Object key) {
+		return innerMap.remove(key);
+	}
+
+	@Override
+	public void clear() {
+		innerMap.clear();
+	}
+
+	@Override
+	public boolean containsKey(Object key) {
+		return innerMap.containsKey(key);
+	}
+
+	@Override
+	public boolean containsCollection(Collection<Value> collection) {
+		return innerMap.containsValue(collection);
+	}
+
+	@Override
+	public int size() {
+		return innerMap.size();
 	}
 }

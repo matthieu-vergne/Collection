@@ -2,6 +2,7 @@ package fr.vergne.collection.impl;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
 import fr.vergne.collection.MultiMap;
 
@@ -15,14 +16,14 @@ import fr.vergne.collection.MultiMap;
  * 
  * @param <Key>
  * @param <Value>
+ * @deprecated The code now has its dedicated project at: https://github.com/matthieu-vergne/multi-map
  */
-@SuppressWarnings("serial")
 public class HashMultiMap<Key, Value> extends AbstractMultiMap<Key, Value>
 		implements MultiMap<Key, Value> {
 
 	public HashMultiMap(MultiMap<Key, Value> map) {
 		for (Entry<Key, Collection<Value>> entry : map.entrySet()) {
-			populate(entry.getKey(), entry.getValue());
+			addAll(entry.getKey(), entry.getValue());
 		}
 	}
 

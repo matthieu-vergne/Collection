@@ -18,10 +18,12 @@ public class SetIteratorTest {
 		SetIterator<Integer> iterator = new SetIterator<Integer>(
 				set(1, 2, 3, 4));
 		Collection<Set<Integer>> sets = new LinkedList<Set<Integer>>();
-		int setLimit = 15;
-		for (int i = 0; i < setLimit; i++) {
+		while (iterator.hasNext()) {
 			sets.add(iterator.next());
 		}
+
+		assertTrue(find(sets, Collections.<Integer> emptySet()));
+
 		assertTrue(find(sets, set(1)));
 		assertTrue(find(sets, set(2)));
 		assertTrue(find(sets, set(3)));
@@ -61,17 +63,16 @@ public class SetIteratorTest {
 
 	@Test
 	public void testAmountOfPossibleSets() {
-		assertEquals(1, new SetIterator<Integer>(set(1))
+		assertEquals(2, new SetIterator<Integer>(set(1))
 				.getAmountOfPossibleSets().intValue());
-		assertEquals(3, new SetIterator<Integer>(set(1, 2))
+		assertEquals(4, new SetIterator<Integer>(set(1, 2))
 				.getAmountOfPossibleSets().intValue());
-		assertEquals(7, new SetIterator<Integer>(set(1, 2, 3))
+		assertEquals(8, new SetIterator<Integer>(set(1, 2, 3))
 				.getAmountOfPossibleSets().intValue());
-		assertEquals(15, new SetIterator<Integer>(set(1, 2, 3, 4))
+		assertEquals(16, new SetIterator<Integer>(set(1, 2, 3, 4))
 				.getAmountOfPossibleSets().intValue());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testPossibleSetsGenerationAndEvaluation() {
 		for (Set<Integer> set : Arrays.asList(set(1), set(1, 2),
@@ -82,7 +83,8 @@ public class SetIteratorTest {
 				iterator.next();
 				count++;
 			}
-			assertEquals(iterator.getAmountOfPossibleSets().intValue(), count);
+			assertEquals(set.toString(), iterator.getAmountOfPossibleSets()
+					.intValue(), count);
 		}
 	}
 
